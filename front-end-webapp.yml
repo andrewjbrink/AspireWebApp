@@ -1,0 +1,42 @@
+﻿name: Frontend WebApp CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "src/Frontend/**"
+      - ".github/workflows/frontend-webapp.yml"
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DOTNET_VERSION: "8.0.x" # adjust if needed
+      PROJECT_PATH: "src/Frontend/Frontend.csproj" # <-- your frontend project
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore $PROJECT_PATH
+
+      - name: Build
+        run: dotnet build $PROJECT_PATH --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
+
+      - name: Deploy to Azure Web App (Frontend)
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: "<YOUR_FRONTEND_WEBAPP_NAME>"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND }}
+          package: ./publish
