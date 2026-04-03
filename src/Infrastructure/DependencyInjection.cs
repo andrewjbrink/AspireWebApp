@@ -1,0 +1,50 @@
+using AspireWebApp.Application.Common.Interfaces;
+using AspireWebApp.Application.Interfaces;
+using AspireWebApp.Application.Services;
+using AspireWebApp.Infrastructure.Persistence;
+using AspireWebApp.Infrastructure.Persistence.Interceptors;
+using EntityFramework.Exceptions.SqlServer;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace AspireWebApp.Infrastructure;
+
+public static class DependencyInjection
+{
+    public static void AddInfrastructure(this IHostApplicationBuilder builder)
+    {
+        builder.AddSqlServerDbContext<ApplicationDbContext>("CleanArchitecture",
+            null,
+            options =>
+            {
+                var serviceProvider = builder.Services.BuildServiceProvider();
+                options.AddInterceptors(
+                    serviceProvider.GetRequiredService<EntitySaveChangesInterceptor>(),
+                    serviceProvider.GetRequiredService<DispatchDomainEventsInterceptor>());
+
+                // Return strongly typed useful exceptions
+                options.UseExceptionProcessor();
+            });
+
+        var services = builder.Services;
+
+        services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+        //Move this to an extension
+        services.AddScoped<IPropertyValuation, PropertyValuations>();
+
+        services.AddScoped<EntitySaveChangesInterceptor>();
+        services.AddScoped<DispatchDomainEventsInterceptor>();
+
+        services.AddSingleton(TimeProvider.System);
+    }
+    public static void AddInfrastructureWeb(this IHostApplicationBuilder builder)
+    {
+        builder.AddSqlServerDbContext<ApplicationDbContext>("CleanArchitecture", null, options =>
+        {
+
+
+        });
+        var services = builder.Services;
+    }
+}

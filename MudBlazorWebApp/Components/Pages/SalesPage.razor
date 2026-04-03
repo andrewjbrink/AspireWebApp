@@ -1,0 +1,16 @@
+﻿@page "/sales"
+@using AspireWebApp.Domain.ValuationRoll
+@inject HttpClient Http
+
+
+
+@code {
+
+    private PropertyRecord propertyRecord = default!;
+
+    override protected async Task OnInitializedAsync()
+    {
+        var message = await Http.GetStringAsync("/push-sales");
+    }
+
+}

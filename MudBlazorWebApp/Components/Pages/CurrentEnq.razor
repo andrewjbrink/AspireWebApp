@@ -1,0 +1,58 @@
+﻿@page "/current"
+@using MudBlazorWebApp.Extensions
+@rendermode @(new InteractiveServerRenderMode(false))
+@inject JavaHelper LocalStorageHelper
+
+@* [PersistentState(AllowUpdates = true, RestoreBehavior = RestoreBehavior.SkipLastSnapshot)] *@
+
+@if (Data is null)
+{
+    <p>
+        No Data
+
+    </p>
+
+}
+else
+{
+    <p>
+        Got the data
+
+    </p>    
+
+
+}
+
+@code
+{
+
+    public string Data { get; set; } = default!;
+
+    override protected async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadLastProperty();
+        }
+    }
+
+    private async Task LoadLastProperty()
+    {
+
+
+        try
+        {
+            Data = await LocalStorageHelper.GetItemAsync("response");
+
+        }
+        catch (TaskCanceledException)
+        {
+            //safe to ignore, this means the user navigated away before the task completed
+           
+        }
+       
+        
+    
+    }
+
+}

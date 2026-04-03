@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: aspire-web-app
+metadata:
+    template: azd-init@1.23.12
+services:
+    web-api:
+        project: src/WebApi
+        host: containerapp
+        language: dotnet
+resources:
+    web-api:
+        type: host.containerapp
+        port: 8080
