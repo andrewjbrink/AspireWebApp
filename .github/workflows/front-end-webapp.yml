@@ -13,8 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOTNET_VERSION: "10.0.x" # adjust if needed
-      PROJECT_PATH: "MudBlazorWebApp/MudBlazorWebApp.csproj" # <-- your frontend project
+      APPLICATION_NAME: "app-wowow-web"
+      DOTNET_VERSION: "10.0.0"
+      PROJECT_PATH: "MudBlazorWebApp/MudBlazorWebApp.csproj" 
 
     steps:
       - name: Checkout
@@ -37,6 +38,6 @@ jobs:
       - name: Deploy to Azure Web App (Frontend)
         uses: azure/webapps-deploy@v3
         with:
-          app-name: "AllThingsValuations"
+          app-name: ${{ env.APPLICATION_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND }}
           package: ./publish
