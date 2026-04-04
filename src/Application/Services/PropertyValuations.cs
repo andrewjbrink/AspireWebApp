@@ -48,6 +48,7 @@ public class PropertyValuations : IPropertyValuation
                     if (cells != null && cells.Count >= 10)
                     {
                         string erf = cells[1].InnerText.Trim();
+
                         var firstSpace = erf.IndexOf(' ');
                         string erfNumberPart = string.Empty;
                         string allotmentPart = string.Empty;
@@ -55,8 +56,8 @@ public class PropertyValuations : IPropertyValuation
                         string cleanedMarketValue = ParseRandValueSafe(stringMarketValue).ToString();
                         if (firstSpace > 0)
                         {
-                            erfNumberPart = erf.Substring(0, firstSpace);
-                            allotmentPart = erf.Substring(firstSpace + 1);
+                            erfNumberPart = erf.Split(' ')[0].Trim();
+                            allotmentPart = erf.Split(' ')[1].Trim();
                         }
                         var record = new PropertyRecord
                         {
@@ -269,6 +270,7 @@ public class PropertyValuations : IPropertyValuation
         var url = $"{baseUrlFarm}{farmDesc[0]},{farmDesc[1]}";
         var web = new HtmlWeb();
         var doc = web.Load(url);
+
         var rows = doc.DocumentNode.SelectNodes("//table//tr");
         if (rows != null)
         {
@@ -278,11 +280,10 @@ public class PropertyValuations : IPropertyValuation
                 decimal maxMarketValue = 0;
                 var row = rows[i];
                 var cells = row.SelectNodes("td");
-                string propertyDescription = string.Empty;
+                string propertyDescription;
                 if (cells != null && cells.Count >= 10)
                 {
                     string erf = cells[1].InnerText.Trim();
-                    propertyDescription = cells[1].InnerText.Trim();
                     //string coctDescription = $"{farmDesc[2]} FARMS {farmDesc[0]} - {farmDesc[1]}";
                     propertyDescription = cells[1].InnerText.Trim();
                     string stringMarketValue = cells[5].InnerText.Trim();

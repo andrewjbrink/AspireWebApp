@@ -8,7 +8,7 @@ var apiBaseUrl = builder.Configuration["services:api:https:0"]; //services:api:h
 
 
 builder.AddServiceDefaults();
-builder.Services.AddWebApiWeb(builder.Configuration);
+builder.Services.AddWebApiWeb();
 builder.AddInfrastructureWeb();
 
 // Add MudBlazor services

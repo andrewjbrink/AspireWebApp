@@ -5,7 +5,7 @@
 
 public static class DependencyInjection
 {
-    public static void AddWebApiWeb(this IServiceCollection services, IConfiguration config)
+    public static void AddWebApiWeb(this IServiceCollection services)
     {
         services.AddHttpContextAccessor();
     }

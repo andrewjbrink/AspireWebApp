@@ -11,9 +11,11 @@ public class PropertyRecordService
         _http = http;
     }
 
-    public async Task<PropertyRecord> GetPropertyRecord(string erf, string Allotment)
+    public async Task<PropertyRecord> GetPropertyRecord()
     {
         //const endpoint = window.__config.apiBaseUrl + "/api/valuations/ErfValuation/" + erfName + "/" + minRegion.replace(" ", "%20"); //
+
+
         var propertyRecord = await _http.GetFromJsonAsync<PropertyRecord>("api/PropertyRecord");
         return propertyRecord!;
 

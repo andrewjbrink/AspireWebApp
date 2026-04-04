@@ -32,27 +32,22 @@ else
     {
         if (firstRender)
         {
-            await LoadLastProperty();
+            // await LoadLastProperty();
         }
     }
 
-    private async Task LoadLastProperty()
-    {
+    // private async Task LoadLastProperty()
+    // {
+    //     try
+    //     {
+    //         Data = await LocalStorageHelper.GetItemAsync("response");
 
-
-        try
-        {
-            Data = await LocalStorageHelper.GetItemAsync("response");
-
-        }
-        catch (TaskCanceledException)
-        {
-            //safe to ignore, this means the user navigated away before the task completed
+    //     }
+    //     catch (TaskCanceledException)
+    //     {
+    //         //safe to ignore, this means the user navigated away before the task completed
            
-        }
-       
-        
-    
-    }
+    //     }
+    // }
 
 }
