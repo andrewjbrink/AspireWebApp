@@ -14,7 +14,7 @@ jobs:
 
     env:
       APPLICATION_NAME: "app-wowow-wpi-dev-001"
-      DOTNET_VERSION: "10.0.0" 
+      DOTNET_VERSION: "10.0.x" 
       PROJECT_PATH: "src/WebApi/WebApi.csproj" 
       
 

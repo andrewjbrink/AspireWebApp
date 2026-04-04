@@ -56,8 +56,8 @@ public class PropertyValuations : IPropertyValuation
                         string cleanedMarketValue = ParseRandValueSafe(stringMarketValue).ToString();
                         if (firstSpace > 0)
                         {
-                            erfNumberPart = erf.Split(' ')[0].Trim();
-                            allotmentPart = erf.Split(' ')[1].Trim();
+                            erfNumberPart = erf[..firstSpace];
+                            allotmentPart = erf[(firstSpace + 1)..];
                         }
                         var record = new PropertyRecord
                         {
@@ -106,11 +106,7 @@ public class PropertyValuations : IPropertyValuation
                 if (match.Success)
                 {
                     var eventTarget = match.Groups[1].Value;
-                    var eventArgument = match.Groups[2].Value;
-
-                    //Console.WriteLine($"{link.InnerText} -> {eventTarget}");
                     var pageNumber = link.InnerText.Trim();
-
                     var postData = new Dictionary<string, string>
                                          {
                                              {"__VIEWSTATE", viewState },
@@ -120,18 +116,17 @@ public class PropertyValuations : IPropertyValuation
                                              {"__EVENTARGUMENT", "" }
                                          };
 
-                    using (var client = new HttpClient())
-                    {
-                        var content = new FormUrlEncodedContent(postData);
-                        var response = await client.PostAsync(url, content);
-                        var responseString = await response.Content.ReadAsStringAsync();
-                        // Process the response for the current page
-                        var pageDoc = new HtmlDocument();
-                        pageDoc.LoadHtml(responseString);
+                    var client = new HttpClient();
 
-                        var propertyRecords = await GetPageParcelsAsync(pageDoc, pageNumber);
-                        allPropertyRecords.AddRange(propertyRecords);
-                    }
+                    var content = new FormUrlEncodedContent(postData);
+                    var response = await client.PostAsync(url, content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    // Process the response for the current page
+                    var pageDoc = new HtmlDocument();
+                    pageDoc.LoadHtml(responseString);
+                    var propertyRecords = await GetPageParcelsAsync(pageDoc, pageNumber);
+                    allPropertyRecords.AddRange(propertyRecords);
+
                 }
             }
             return allPropertyRecords;
