@@ -34,7 +34,13 @@ jobs:
         run: dotnet build $PROJECT_PATH --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
+        run: dotnet publish $PROJECT_PATH \
+             --configuration Release \
+             --output ./publish \
+             --self-contained true \
+             --runtime linux-x64 \
+             /p:PublishTrimmed=false
+
 
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
