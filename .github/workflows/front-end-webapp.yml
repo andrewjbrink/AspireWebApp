@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "src/Frontend/**"
+      - "MudBlazorWebApp/**"
       - ".github/workflows/frontend-webapp.yml"
   workflow_dispatch:
 
