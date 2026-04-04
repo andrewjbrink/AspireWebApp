@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOTNET_VERSION: "8.0.x" # adjust if needed
-      PROJECT_PATH: "src/Api/Api.csproj" # <-- your API project
+      DOTNET_VERSION: "10.0.x" # adjust if needed
+      PROJECT_PATH: "src/WebApi/WebApi.csproj" # <-- your API project
 
     steps:
       - name: Checkout
@@ -37,6 +37,6 @@ jobs:
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
         with:
-          app-name: "<YOUR_API_WEBAPP_NAME>"
+          app-name: "<wowow_api>"
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_API }}
           package: ./publish
