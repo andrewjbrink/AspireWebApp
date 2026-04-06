@@ -35,6 +35,12 @@ jobs:
       - name: Publish
         run: dotnet publish ${{ env.DOTNET_VERSION }} --configuration Release  --output ./publish
 
+      - name: Configure app seetings and ports
+        run: az webapp config appsettings set \
+             -g ${{ secrets.AZURE_RESOURCE_GROUP }} \
+             -n ${{ secrets.AZURE_WEBAPP_API_NAME }} \
+             --settings ASPNETCORE_URLS=http://*:80 PORT=80
+
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
         with:
