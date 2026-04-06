@@ -14,8 +14,8 @@ jobs:
 
     env:
       APPLICATION_NAME: "app-wowow-web"
-      DOTNET_VERSION: "10.0.x"
-      PROJECT_PATH: "MudBlazorWebApp/MudBlazorWebApp.csproj"
+      DOTNET_VERSION: "10.0.x" 
+      PROJECT_PATH: "MudBlazorWebApp/MudBlazorWebApp.csproj" 
 
     steps:
       - name: Checkout
@@ -33,12 +33,7 @@ jobs:
         run: dotnet build $PROJECT_PATH --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish $PROJECT_PATH \
-          --configuration Release \
-          --output ./publish \
-          --self-contained true \
-          --runtime linux-x64 \
-          /p:PublishTrimmed=false
+        run: dotnet publish $PROJECT_PATH -c Release -o ./publish --self-contained true --runtime linux-x64
 
       - name: Deploy to Azure Web App (Frontend)
         uses: azure/webapps-deploy@v3
