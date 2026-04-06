@@ -35,7 +35,7 @@ jobs:
         run: dotnet build ${{ env.DOTNET_VERSION }} --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ${{ env.DOTNET_VERSION }} --configuration Release --no-restore --no-build --output ./publish
+        run: dotnet publish ${{ env.DOTNET_VERSION }} --configuration Release  --output ./publish
 
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
