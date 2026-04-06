@@ -14,7 +14,7 @@ jobs:
 
     env:
       APPLICATION_NAME: "app-wowow-web"
-      DOTNET_VERSION: "10.0.x" 
+      DOTNET_VERSION: "10.x" 
       PROJECT_PATH: "MudBlazorWebApp/MudBlazorWebApp.csproj" 
 
     steps:
