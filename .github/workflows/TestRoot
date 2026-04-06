@@ -1,0 +1,15 @@
+name: Example Workflow
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show root folder
+        run: |
+          echo "Root folder is: $GITHUB_WORKSPACE"
+          ls -la $GITHUB_WORKSPACE
