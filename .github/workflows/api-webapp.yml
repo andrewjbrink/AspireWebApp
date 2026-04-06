@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "scr/WebApi/**"
+      - "src/WebApi/**"
       - ".github/workflows/api-webapp.yml"
   workflow_dispatch:
 
