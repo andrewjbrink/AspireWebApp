@@ -15,7 +15,7 @@ jobs:
     env:
       APPLICATION_NAME: "app-wowow-wpi-dev-001"
       DOTNET_VERSION: "10.x" 
-      PROJECT_PATH: "src/WebApi/WebApi.csproj"
+      PROJECT_PATH: "src/WebApi/WebApi.csproj" #src/WebApi/WebApi.csproj
 
     steps:
       - name: Checkout
