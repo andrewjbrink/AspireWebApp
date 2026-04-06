@@ -4,7 +4,6 @@ using AspireWebApp.WebApi;
 using AspireWebApp.WebApi.Endpoints;
 using AspireWebApp.WebApi.Extensions;
 using AspireWebApp.WebApi.HealthChecks;
-using AspireWebApp.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +18,9 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-app.MapHub<SalesHub>("/salesHub");
+//app.MapHub<SalesHub>("/salesHub");
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
