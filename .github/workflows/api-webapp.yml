@@ -4,25 +4,25 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "src/WebApi/**"
+      - "src/Api/**"
       - ".github/workflows/api-webapp.yml"
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     env:
       APPLICATION_NAME: "app-wowow-wpi-dev-001"
-      DOTNET_VERSION: "10.x" 
-      PROJECT_PATH: "src/WebApi/WebApi.csproj" #src/WebApi/WebApi.csproj
+      DOTNET_VERSION: "10.0.x"
+      PROJECT_PATH: "src/WebApi/WebApi.csproj" # <-- your API project
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -30,16 +30,10 @@ jobs:
         run: dotnet restore $PROJECT_PATH
 
       - name: Build
-        run: dotnet build ${{ env.DOTNET_VERSION }} --configuration Release --no-restore
+        run: dotnet build $PROJECT_PATH --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ${{ env.DOTNET_VERSION }} --configuration Release  --output ./publish
-
-      - name: Configure app seetings and ports
-        run: az webapp config appsettings set \
-             -g ${{ secrets.AZURE_RESOURCE_GROUP }} \
-             -n ${{ secrets.AZURE_WEBAPP_API_NAME }} \
-             --settings ASPNETCORE_URLS=http://*:80 PORT=80
+        run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
 
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
