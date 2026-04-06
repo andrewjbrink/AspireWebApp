@@ -9,13 +9,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build-and-test:
     runs-on: ubuntu-latest
 
     env:
       APPLICATION_NAME: "app-wowow-wpi-dev-001"
       DOTNET_VERSION: "10.x" 
       PROJECT_PATH: "src/WebApi/WebApi.csproj" 
+      
       
 
     steps:
@@ -31,10 +32,10 @@ jobs:
         run: dotnet restore $PROJECT_PATH
 
       - name: Build
-        run: dotnet build $PROJECT_PATH --configuration Release --no-restore
+        run: dotnet build ${{ env.DOTNET_VERSION }} --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
+        run: dotnet publish ${{ env.DOTNET_VERSION }} --configuration Release --no-restore --no-build --output ./publish
 
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
