@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "WebApi/**"
+      - "src/Api/**"
       - ".github/workflows/api-webapp.yml"
   workflow_dispatch:
 
@@ -14,16 +14,15 @@ jobs:
 
     env:
       APPLICATION_NAME: "app-wowow-wpi-dev-001"
-      DOTNET_VERSION: "10.x" 
-      PROJECT_PATH: "src/WebApi/WebApi.csproj" 
-      
+      DOTNET_VERSION: "10.0.x"
+      PROJECT_PATH: "src/WebApi/WebApi.csproj" # <-- your API project
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -35,7 +34,10 @@ jobs:
 
       - name: Publish
         run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
-
+  
+      - name: Configure App settings and ports.
+        run: az webapp config appsettings --settings ASPNETCORE_URLS=http://*:80 PORT=80
+    
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
         with:
