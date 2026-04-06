@@ -14,8 +14,8 @@ jobs:
 
     env:
       APPLICATION_NAME: "app-wowow-web"
-      DOTNET_VERSION: "10.x" 
-      PROJECT_PATH: "MudBlazorWebApp/MudBlazorWebApp.csproj" 
+      DOTNET_VERSION: "10.0.x"
+      PROJECT_PATH: "MudBlazorWebApp/MudBlazorWebApp.csproj"
 
     steps:
       - name: Checkout
@@ -27,13 +27,13 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore $PROJECT_PATH
+        run: dotnet restore "${{ env.PROJECT_PATH }}"
 
       - name: Build
-        run: dotnet build $PROJECT_PATH --configuration Release --no-restore
+        run: dotnet build "${{ env.PROJECT_PATH }}" --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish $PROJECT_PATH \
+        run: dotnet publish "${{ env.PROJECT_PATH }}" \
           --configuration Release \
           --output ./publish \
           --self-contained true \
