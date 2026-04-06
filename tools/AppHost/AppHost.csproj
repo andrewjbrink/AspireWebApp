@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\MudBlazorWebApp\MudBlazorWebApp.csproj" />
     <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
+    <ProjectReference Include="..\..\WebFrontEnd\WebFrontEnd.csproj" />
     <ProjectReference Include="..\MigrationService\MigrationService.csproj" />
   </ItemGroup>
 

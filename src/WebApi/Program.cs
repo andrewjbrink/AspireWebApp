@@ -40,9 +40,9 @@ app.UseHealthChecks();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.MapHeroEndpoints();
+//app.MapHeroEndpoints();
 app.MapValuationEndpoints();
-app.MapTeamEndpoints();
+//app.MapTeamEndpoints();
 app.UseEventualConsistencyMiddleware();
 
 app.ApplyApiCorsConfig();

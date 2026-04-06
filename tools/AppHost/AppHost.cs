@@ -53,32 +53,19 @@ var migrationService = builder.AddProject<MigrationService>("migrations")
         var envSetting = new AppServiceNameValuePair { Name = envNetCoreEnvironment, Value = environment };
         site.SiteConfig.AppSettings.Add(new BicepValue<AppServiceNameValuePair>(envSetting));
     })
-    .WithReference(db)
-    .WaitFor(sqlServer).PublishAsAzureAppServiceWebsite((infra, site) =>
-    {
-        site.SiteConfig.NumberOfWorkers = 1;
-
-    });
+    .WithReference(db);
 
 var api = builder
     .AddProject<WebApi>("api")
     .WithExternalHttpEndpoints()
     .WithReference(db)
-    .WaitForCompletion(migrationService)
-    .PublishAsAzureAppServiceWebsite((infra, site) =>
-    {
-        site.SiteConfig.NumberOfWorkers = 1; // <-- this one! (add the same for migration service too)
-    });
+    .WaitForCompletion(migrationService);
 
-var frontEnd = builder.AddProject<MudBlazorWebApp>("frontEnd")
+var frontEnd = builder.AddProject<WebFrontEnd>("frontEnd")
     .WithExternalHttpEndpoints()
     .WithReference(api)
-    .WaitFor(api)
-    .WaitFor(sqlServer)
-    .PublishAsAzureAppServiceWebsite((infra, site) =>
-    {
-        site.SiteConfig.NumberOfWorkers = 1;
-    });
+    .WaitFor(api);
+//.WaitFor(sqlServer);
 
 // Configure Application Insights and Log Analytics only if in publish mode
 // When running locally, use Aspire Dashboard instead
@@ -89,5 +76,4 @@ if (builder.ExecutionContext.IsPublishMode)
     api.WithReference(insights);
     migrationService.WithReference(insights);
 }
-
 builder.Build().Run();
