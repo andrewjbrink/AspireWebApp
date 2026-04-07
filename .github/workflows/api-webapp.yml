@@ -1,10 +1,10 @@
-name: API CI/CD
+name: API WebApp CI/CD
 
 on:
   push:
     branches: [ "main" ]
     paths:
-      - "AspireAppAzureTest/**" #AspireAppAzureTest.ApiService/AspireAppAzureTest.ApiService.csproj
+      - "src/Api/**"
       - ".github/workflows/api-webapp.yml"
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ jobs:
     env:
       APPLICATION_NAME: "app-wowow-wpi-dev-001"
       DOTNET_VERSION: "10.0.x"
-      PROJECT_PATH: " AspireAppAzureTest.ApiService/AspireAppAzureTest.ApiService.csproj"  #AspireAppAzureTest.ApiService/AspireAppAzureTest.ApiService.csproj
+      PROJECT_PATH: "src/WebApi/WebApi.csproj" # <-- your API project
 
     steps:
       - name: Checkout
@@ -34,10 +34,10 @@ jobs:
 
       - name: Publish
         run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
-  
-      - name: Configure App settings and ports.
-        run: az webapp config appsettings --settings ASPNETCORE_URLS=http://*:80 PORT=80
-    
+        
+      - name: List publish folder
+        run: ls -R ./publish
+       
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
         with:
