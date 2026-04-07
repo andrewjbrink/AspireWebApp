@@ -35,8 +35,7 @@ jobs:
       - name: Publish
         run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
   
-      - name: Configure App settings and ports.
-        run: az webapp config appsettings --settings ASPNETCORE_URLS=http://*:80 PORT=80
+      
     
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
