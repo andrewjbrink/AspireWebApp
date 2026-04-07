@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "AspireAppAzureTest/**" #AspireAppAzureTest.ApiService/AspireAppAzureTest.ApiService.csproj
+      - "src/WebApi/**" #src/WebApi/WebApi.csproj
       - ".github/workflows/api-webapp.yml"
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ jobs:
     env:
       APPLICATION_NAME: "app-wowow-wpi-dev-001"
       DOTNET_VERSION: "10.0.x"
-      PROJECT_PATH: " AspireAppAzureTest.ApiService/AspireAppAzureTest.ApiService.csproj"  #AspireAppAzureTest.ApiService/AspireAppAzureTest.ApiService.csproj
+      PROJECT_PATH: "WebApi/WebApi.csproj"  
 
     steps:
       - name: Checkout
