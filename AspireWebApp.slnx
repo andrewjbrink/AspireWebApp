@@ -3,6 +3,7 @@
     <File Path=".editorconfig" />
     <File Path=".gitignore" />
     <File Path="api-webapp.yml" />
+    <File Path="azure.yml" />
     <File Path="Directory.Build.props" />
     <File Path="front-end-webapp.yml" />
     <File Path="global.json" />
