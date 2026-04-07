@@ -18,7 +18,7 @@ jobs:
         dotnet-version: "8.0.x"
 
     - name: Publish AppHost
-      run: dotnet publish ./src/AppHost/AppHost.csproj -c Release -o ./publish
+      run: dotnet publish ./tools/AppHost/AppHost.csproj -c Release -o ./publish #tools/AppHost/AppHost.csproj
 
     - name: Login to Azure
       uses: azure/login@v2
