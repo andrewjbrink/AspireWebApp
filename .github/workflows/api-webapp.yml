@@ -1,10 +1,10 @@
-name: API CI/CD
+name: API WebApp CI/CD
 
 on:
   push:
     branches: [ "main" ]
     paths:
-      - "src/WebApi/**" #src/WebApi/WebApi.csproj
+      - "src/Api/**"
       - ".github/workflows/api-webapp.yml"
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ jobs:
     env:
       APPLICATION_NAME: "app-wowow-wpi-dev-001"
       DOTNET_VERSION: "10.0.x"
-      PROJECT_PATH: "WebApi/WebApi.csproj"  
+      PROJECT_PATH: "src/WebApi/WebApi.csproj" # <-- your API project
 
     steps:
       - name: Checkout
@@ -34,9 +34,7 @@ jobs:
 
       - name: Publish
         run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
-  
-      
-    
+
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
         with:
