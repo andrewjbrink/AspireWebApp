@@ -58,9 +58,14 @@ var migrationService = builder.AddProject<MigrationService>("migrations")
 var api = builder
     .AddProject<WebApi>("api")
     .WithExternalHttpEndpoints()
-    .WithReference(db)
-    .WaitForCompletion(migrationService)
     .WithEnvironment("PORT", "8080");
+
+
+//for now I just added the ConnectionString to the API, but ideally we should have the migration service run before the API and then the API can reference the migration service to get the connection string. This is because the migration service is responsible for creating the database and therefore should be the one to provide the connection string to the API.
+//My Api does not hit a datbase yet. So I will just reference the db directly for now, but in the future we should consider having the migration service provide the connection string to the API. This way we can ensure that the database is created before the API tries to connect to it.
+//.WithReference(db)
+//.WaitForCompletion(migrationService)
+
 
 var frontEnd = builder.AddProject<WebFrontEnd>("frontEnd")
     .WithExternalHttpEndpoints()
