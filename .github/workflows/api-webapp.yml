@@ -34,7 +34,10 @@ jobs:
 
       - name: Publish
         run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
-
+        
+      - name: List publish folder
+        run: ls -R ./publish
+       
       - name: Deploy to Azure Web App (API)
         uses: azure/webapps-deploy@v3
         with:
