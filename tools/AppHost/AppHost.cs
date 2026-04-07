@@ -2,6 +2,7 @@ using AppHost.Commands;
 using Azure.Provisioning;
 using Azure.Provisioning.AppService;
 
+
 using Projects;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -17,7 +18,12 @@ builder.AddAzureAppServiceEnvironment("plan").ConfigureInfrastructure(infra =>
     {
         Name = "B1", // Basic tier, 1 core
     };
-});
+}).ConfigureInfrastructure(infra =>
+{
+    var plan = infra.GetProvisionableResources().OfType<AppServicePlan>().Single();
+    plan.Tags.Add("Environment", "Production");
+    plan.Tags.Add("CostCenter", "Engineering");
+}).WithDashboard(enable: true);
 
 var sqlServer = builder
     .AddAzureSqlServer("sql")
@@ -63,17 +69,25 @@ var api = builder
     .WithEnvironment("PORT", "8080")
     .PublishAsAzureAppServiceWebsite((context, site) =>
     {
-        // Optional: Always On for production
         site.SiteConfig.IsAlwaysOn = true;
     });
+
 
 
 
 var frontEnd = builder.AddProject<WebFrontEnd>("frontEnd")
     .WithExternalHttpEndpoints()
     .WithReference(api)
-    .WaitFor(api);
-//.WaitFor(sqlServer);
+    .WaitFor(api)
+    .WaitFor(sqlServer)
+    .PublishAsAzureAppServiceWebsite((infra, website) =>
+    {
+        website.Tags.Add("Environment", "Production");
+        website.Tags.Add("Team", "Andrew");
+        website.SiteConfig.IsAlwaysOn = true;
+    });
+
+
 
 // Configure Application Insights and Log Analytics only if in publish mode
 // When running locally, use Aspire Dashboard instead

@@ -17,13 +17,15 @@
     <Project Path="src\WebApi\WebApi.csproj" />
     <Project Path="WebFrontEnd/WebFrontEnd.csproj" Id="3849938e-2bb7-43d9-9b2d-6b5a136228d6" />
   </Folder>
+  <Folder Name="/src/AppHost/">
+    <Project Path="tools\AppHost\AppHost.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests\Architecture.Tests\Architecture.Tests.csproj" />
     <Project Path="tests\Domain.UnitTests\Domain.UnitTests.csproj" />
     <Project Path="tests\WebApi.IntegrationTests\WebApi.IntegrationTests.csproj" />
   </Folder>
   <Folder Name="/tools/">
-    <Project Path="tools\AppHost\AppHost.csproj" />
     <Project Path="tools\MigrationService\MigrationService.csproj" />
   </Folder>
 </Solution>

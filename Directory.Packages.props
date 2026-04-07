@@ -3,6 +3,8 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="Aspire.Hosting" Version="13.2.1" />
+    <PackageVersion Include="Aspire.Hosting.Azure" Version="13.2.1" />
     <PackageVersion Include="Aspire.Hosting.Azure.AppConfiguration" Version="13.2.1" />
     <PackageVersion Include="Aspire.Hosting.Docker" Version="13.2.1" />
     <PackageVersion Include="Aspire.Microsoft.Extensions.Configuration.AzureAppConfiguration" Version="13.2.1" />
@@ -18,6 +20,7 @@
     <PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="13.2.1" />
     <PackageVersion Include="AwesomeAssertions" Version="9.4.0" />
     <PackageVersion Include="Azure.Identity" Version="1.13.0" />
+    <PackageVersion Include="Azure.Provisioning" Version="1.5.0" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
