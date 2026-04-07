@@ -1,46 +1,34 @@
-name: API WebApp CI/CD
+name: Deploy Aspire AppHost to Azure
 
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - "tools/AppHost/**" #tools/AppHost/AppHost.csproj
-      - ".github/workflows/api-webapp.yml"
-  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    env:
-      APPLICATION_NAME: "app-wowow-wpi-dev-001"
-      DOTNET_VERSION: "10.0.x"
-      PROJECT_PATH: "tools/AppHost/AppHost.csproj" # <-- your API project
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: "8.0.x"
 
-      - name: Restore
-        run: dotnet restore $PROJECT_PATH
+    - name: Publish AppHost
+      run: dotnet publish ./src/AppHost/AppHost.csproj -c Release -o ./publish
 
-      - name: Build
-        run: dotnet build $PROJECT_PATH --configuration Release --no-restore
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Publish
-        run: dotnet publish $PROJECT_PATH --configuration Release --output ./publish
-        
-      - name: List publish folder
-        run: ls -R ./publish
-       
-      - name: Deploy to Azure Web App (API)
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.APPLICATION_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_API }}
-          package: ./publish
+    - name: Deploy Aspire AppHost
+      uses: azure/arm-deploy@v2
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+        template: ./publish/azuredeploy.json
+        parameters: ./publish/azuredeploy.parameters.json
