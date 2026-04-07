@@ -7,6 +7,8 @@ using AspireWebApp.WebApi.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 builder.AddServiceDefaults();
 builder.Services.AddCustomProblemDetails();
 
@@ -14,7 +16,7 @@ builder.Services.AddWebApi(builder.Configuration);
 builder.Services.AddApplication();
 builder.AddInfrastructure();
 builder.AddCustomExtensions();
-builder.Services.AddSignalR();
+
 
 var app = builder.Build();
 

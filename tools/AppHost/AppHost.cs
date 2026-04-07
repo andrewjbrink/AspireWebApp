@@ -59,7 +59,8 @@ var api = builder
     .AddProject<WebApi>("api")
     .WithExternalHttpEndpoints()
     .WithReference(db)
-    .WaitForCompletion(migrationService);
+    .WaitForCompletion(migrationService)
+    .WithEnvironment("PORT", "8080");
 
 var frontEnd = builder.AddProject<WebFrontEnd>("frontEnd")
     .WithExternalHttpEndpoints()
